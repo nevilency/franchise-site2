@@ -1,0 +1,172 @@
+<!-- Сайт розроблено студентом Чернишем Артемом, група 2-11 -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сайт Франшизи</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      padding: 0;
+      margin: 0;
+    }
+    header, footer {
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #0056b3;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background-color: #003f7f;
+    }
+    .section {
+      display: none;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .active {
+      display: block;
+    }
+    select, button.calc {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Сайт Франшизи</h1>
+    <p>Черниш Артем, група 2-11</p>
+  </header>
+
+  <nav>
+    <button onclick="showSection('home')">Головна</button>
+    <button onclick="showSection('about')">Про франшизу</button>
+    <button onclick="showSection('calculator')">Калькулятор</button>
+    <button onclick="showSection('contact')">Контакти</button>
+  </nav>
+
+  <div id="home" class="section active">
+    <div class="card">
+      <h2>Ласкаво просимо!</h2>
+      <p>Дізнайтесь про умови купівлі франшизи, розрахуйте витрати та отримайте контактну інформацію. Навігація — через меню вище.</p>
+    </div>
+  </div>
+
+  <div id="about" class="section">
+    <div class="card">
+      <h2>Про франшизу</h2>
+      <p>Ми пропонуємо три типи франшиз: кав'ярня, фітнес-клуб і пральня. Вони відрізняються стартовим внеском, вартістю обладнання та оренди.</p>
+    </div>
+  </div>
+
+  <div id="calculator" class="section">
+    <div class="card">
+      <h2>Розрахунок стартових витрат</h2>
+      <label for="franchise">Тип франшизи:</label>
+      <select id="franchise">
+        <option value="">-- Виберіть --</option>
+        <option value="coffee">Кав'ярня</option>
+        <option value="gym">Фітнес-клуб</option>
+        <option value="laundry">Пральня</option>
+      </select>
+
+      <label for="city">Місто:</label>
+      <select id="city">
+        <option value="">-- Виберіть --</option>
+        <option value="kyiv">Київ</option>
+        <option value="lviv">Львів</option>
+        <option value="odesa">Одеса</option>
+      </select>
+
+      <button class="calc" onclick="calculate()">Розрахувати</button>
+
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <div id="contact" class="section">
+    <div class="card">
+      <h2>Контактна інформація</h2>
+      <p>Зв’язатися з нами: franchiz777@gmail.com</p>
+      <p>Телефон: +380 96 175 29 84</p>
+    </div>
+  </div>
+
+  <footer>
+    Сайт розроблено студентом Чернишем Артемом, група 2-11
+  </footer>
+
+  <script>
+    const data = {
+      coffee: { name: "Кав'ярня", fee: 10000, equipment: 8000 },
+      gym: { name: "Фітнес-клуб", fee: 20000, equipment: 15000 },
+      laundry: { name: "Пральня", fee: 12000, equipment: 7000 }
+    };
+
+    const rent = {
+      kyiv: 10000,
+      lviv: 8000,
+      odesa: 9000
+    };
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function calculate() {
+      const franchiseType = document.getElementById('franchise').value;
+      const city = document.getElementById('city').value;
+      const resultDiv = document.getElementById('result');
+
+      if (!franchiseType || !city) {
+        resultDiv.innerHTML = "<p style='color:red;'>Будь ласка, оберіть тип франшизи та місто.</p>";
+        return;
+      }
+
+      const franchise = data[franchiseType];
+      const cityRent = rent[city];
+      const total = franchise.fee + franchise.equipment + cityRent;
+
+      resultDiv.innerHTML = `
+        <hr>
+        <p><strong>Тип франшизи:</strong> ${franchise.name}</p>
+        <p><strong>Місто:</strong> ${city.charAt(0).toUpperCase() + city.slice(1)}</p>
+        <p><strong>Паушальний внесок:</strong> $${franchise.fee}</p>
+        <p><strong>Обладнання:</strong> $${franchise.equipment}</p>
+        <p><strong>Оренда:</strong> $${cityRent}</p>
+        <h3>Загальна стартова сума: $${total}</h3>
+      `;
+    }
+  </script>
+</body>
+</html>
